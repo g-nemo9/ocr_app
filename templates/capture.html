@@ -9,8 +9,8 @@
     <input type="file" name="image"><br>
     <input type="submit">
   </form>
-{% if response %}
-  {{ response['responses'][0]['fullTextAnnotation']['text'] }}
+{% if response_text %}
+  {{ response_text }}
 {% endif %}
 </body>
 </html>
