@@ -27,33 +27,15 @@ def get_str(image):
                              }).encode(),   # .encode()がわからない？
                              params={'key': os.environ.get("GOOGLE_API_KEY")},
                              headers={'Content-Type': 'application/json'}).json()
-    print(response['responses'][0]['fullTextAnnotation']['text'])
+    # print(response['responses'][0]['fullTextAnnotation']['text'])
     return response
 
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-    #     image = request.files['image']
-    #     context = base64.b64encode(image.read()).decode()
-    #     img_requests = [{
-    #         'image': {
-    #             'content': context
-    #         },
-    #         'features': [{
-    #             'type': 'TEXT_DETECTION',
-    #             'maxResults': 5
-    #         }]
-    #     }]
-    #     response = requests.post(os.environ.get("GOOGLE_ENDPOINT"),
-    #                              data=json.dumps({
-    #                                  'requests': img_requests
-    #                              }).encode(),
-    #                              params={'key': os.environ.get("GOOGLE_API_KEY")},
-    #                              headers={'Content-Type': 'application/json'}).json()
-    #     print(response['responses'][0]['fullTextAnnotation']['text'])
         response = get_str(request.files['image'])
-        print(response['responses'][0]['fullTextAnnotation']['text'])
+        print(response['responses'][0]['fullTextAnnotation']['text'])   # fullTextAnnotationはDOCUMENT_TEXT_DETECTIONの要素では？
         return render_template('capture.html', response=response)
     else:
         return render_template('capture.html')
