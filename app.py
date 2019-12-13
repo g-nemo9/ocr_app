@@ -9,32 +9,54 @@ dotenv.load_dotenv()
 app = Flask(__name__)
 
 
-@app.route('/', methods=["GET", "POST"])
-def hello_world():
-    if request.method == "GET":
-        print(os.environ.get("GOOGLE_API_KEY"))
-        return render_template('capture.html')
-    else:
-        image = request.files['image']
-        context = base64.b64encode(image.read()).decode()
-        img_requests = [{
-            'image': {
-                'content': context
-            },
-            'features': [{
-                'type': 'TEXT_DETECTION',
-                'maxResults': 5
-            }]
+def get_str(image):
+    context = base64.b64encode(image.read()).decode()   # decode()する必要ある？
+    img_requests = [{
+        'image': {
+            'content': context
+        },
+        'features': [{
+            'type': 'TEXT_DETECTION',
+            # 'maxResults': 5
+            'maxResults': 1
         }]
-        response = requests.post(os.environ.get("GOOGLE_ENDPOINT"),
-                                 data=json.dumps({
-                                     'requests': img_requests
-                                 }).encode(),
-                                 params={'key': os.environ.get("GOOGLE_API_KEY")},
-                                 headers={'Content-Type': 'application/json'}).json()
-        print(response['responses'][0]['fullTextAnnotation']['text'])
+    }]
+    response = requests.post(os.environ.get("GOOGLE_ENDPOINT"),
+                             data=json.dumps({
+                                 'requests': img_requests
+                             }).encode(),   # .encode()がわからない？
+                             params={'key': os.environ.get("GOOGLE_API_KEY")},
+                             headers={'Content-Type': 'application/json'}).json()
+    print(response['responses'][0]['fullTextAnnotation']['text'])
+    return response
 
-        return render_template('show.html', image=image)
+
+@app.route('/', methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+    #     image = request.files['image']
+    #     context = base64.b64encode(image.read()).decode()
+    #     img_requests = [{
+    #         'image': {
+    #             'content': context
+    #         },
+    #         'features': [{
+    #             'type': 'TEXT_DETECTION',
+    #             'maxResults': 5
+    #         }]
+    #     }]
+    #     response = requests.post(os.environ.get("GOOGLE_ENDPOINT"),
+    #                              data=json.dumps({
+    #                                  'requests': img_requests
+    #                              }).encode(),
+    #                              params={'key': os.environ.get("GOOGLE_API_KEY")},
+    #                              headers={'Content-Type': 'application/json'}).json()
+    #     print(response['responses'][0]['fullTextAnnotation']['text'])
+        response = get_str(request.files['image'])
+        print(response['responses'][0]['fullTextAnnotation']['text'])
+        return render_template('capture.html', response=response)
+    else:
+        return render_template('capture.html')
 
 
 if __name__ == '__main__':

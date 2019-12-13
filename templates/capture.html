@@ -5,10 +5,12 @@
   <title>Title</title>
 </head>
 <body>
-  <h1>こんにちは</h1>
   <form method="post" enctype="multipart/form-data">
     <input type="file" name="image"><br>
     <input type="submit">
   </form>
+{% if response %}
+  {{ response['responses'][0]['fullTextAnnotation']['text'] }}
+{% endif %}
 </body>
 </html>
