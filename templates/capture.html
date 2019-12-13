@@ -9,8 +9,15 @@
     <input type="file" name="image"><br>
     <input type="submit">
   </form>
-{% if response_text %}
-  {{ response_text }}
+  <h2>{{ message }}</h2>
+{% if item_list %}
+  {% for item in item_list %}
+    <h2>{{ item.itemName }}</h2>
+    <img src="{{ item.mediumImageUrls[0]['imageUrl'] }}">
+    <p>説明：{{ item.itemCaption }}</p>
+    <p>価格：{{ item.itemPrice }}円</p>
+    <p>詳細：<a href="{{ item.itemUrl }}" target="_blank">{{ item.itemUrl }}</a></p>
+  {% endfor %}
 {% endif %}
 </body>
 </html>
