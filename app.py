@@ -39,6 +39,11 @@ def extract_jan(response_text):
     # jans = re.findall('\d{13}', digested_text)
     jans = re.findall('\d{13}', response_text)
     print(jans)
+    if not jans:
+        """バーコードがlに認識されることがあるため"""
+        digested_text = response_text.replace('\"', '').replace(' ', '').replace('l', '')
+        jans = re.findall('\d{13}', digested_text)
+        print(jans)
     return jans
 
 
