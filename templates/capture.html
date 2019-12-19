@@ -19,9 +19,10 @@
       </form>
       </div>
     </div>
-    <h2 class="display-4">{{ message }}</h2>
+    <h2 class="text-center">{{ message }}</h2>
 {#    <div class="card-columns">#}
       {% if item_list %}
+        <h3 class="text-center">楽天市場から</h3>
         {% for item in item_list %}
           <div class="card m-3">
             <div class="row no-gutters">
@@ -42,15 +43,33 @@
               </div>
             </div>
           </div>
-{#        <h2>{{ item.itemName }}</h2>#}
-{#        <img src="{{ item.mediumImageUrls[0]['imageUrl'] }}">#}
-{#        <p>説明：{{ item.itemCaption }}</p>#}
-{#        <p>価格：{{ item.itemPrice }}円</p>#}
-{#        <p>詳細：<a href="{{ item.itemUrl }}" target="_blank">{{ item.itemUrl }}</a></p>#}
+        {% endfor %}
+      {% endif %}
+      {% if item_list2 %}
+        <h3 class="text-center">ヤフーショッピングから</h3>
+        {% for item2 in item_list2[0::2] %}
+          <div class="card m-3">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+               <img class="img-fluid mx-auto d-block" width=60% src="{{ item2.Image.Medium }}">
+              </div>
+              <div class="col-md-8">
+               <div class="card-body">
+                 <h4 class="card-title">{{ item2.Name }}</h4>
+                 <p class="card-text">
+                   {{ item2.Description }}
+                 </p>
+                 <p class="card-text">
+                   価格：{{ item2.Price._value }}円
+                 </p>
+                 <a href="{{ item2.Url }}" class="card-link" target="_blank">{{ item2.Url }}</a>
+                 </div>
+              </div>
+            </div>
+          </div>
         {% endfor %}
       {% endif %}
     </div>
-  </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>

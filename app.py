@@ -6,6 +6,7 @@ import base64
 import json
 import re
 import time
+import pprint
 
 dotenv.load_dotenv()
 
@@ -61,6 +62,18 @@ def request_to_rakuten(jans):
     return item_list
 
 
+def request_to_yahoo(jans):
+    item_list = []
+    for jan in jans:
+        payload = {'appid': os.environ.get("YAHOO_CLIENT_ID"), 'jan': jan, 'hits': 1}
+        response = requests.get(os.environ.get("YAHOO_ENDPOINT"), params=payload).json()
+        item = response['ResultSet']['0']['Result']['0']
+        if item != {'_attributes': {'index': '0'}}:
+            item_list.append(item)
+        time.sleep(1)
+    return item_list
+
+
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -69,11 +82,12 @@ def index():
         # response_text = process_str(response['responses'][0]['fullTextAnnotation']['text'])
         jans = extract_jan(response['responses'][0]['textAnnotations'][0]['description'])
         item_list = request_to_rakuten(jans)
-        if item_list:
+        item_list2 = request_to_yahoo(jans)
+        if item_list or item_list2:
             message = '解析できました！'
         else:
             message = '解析できませんでした...'
-        return render_template('capture.html', item_list=item_list, message=message)
+        return render_template('capture.html', item_list=item_list, item_list2=item_list2, message=message)
     else:
         return render_template('capture.html')
 
