@@ -30,7 +30,7 @@ def request_to_gcp(image):
                              }).encode(),   # .encode()
                              params={'key': os.environ.get("GOOGLE_API_KEY")},
                              headers={'Content-Type': 'application/json'}).json()
-    print(response['responses'][0]['fullTextAnnotation']['text'])
+    # print(response['responses'][0]['fullTextAnnotation']['text'])
     return response
 
 
@@ -38,12 +38,12 @@ def extract_jan(response_text):
     # digested_text = response_text.replace('\"', '').replace(' ', '').replace('\n', '')
     # jans = re.findall('\d{13}', digested_text)
     jans = re.findall('\d{13}', response_text)
-    print(jans)
+    # print(jans)
     if not jans:
-        """バーコードがlに認識されることがあるため"""
+        """バーコードの長いところがlに認識されることがあるため"""
         digested_text = response_text.replace('\"', '').replace(' ', '').replace('l', '')
         jans = re.findall('\d{13}', digested_text)
-        print(jans)
+        # print(jans)
     return jans
 
 
@@ -57,7 +57,7 @@ def request_to_rakuten(jans):
             print(item['itemName'])
             item_list.append(item)
             time.sleep(1)
-    print(item_list)
+    # print(item_list)
     return item_list
 
 

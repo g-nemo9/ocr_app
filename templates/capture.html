@@ -2,22 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <title>JANコード検索</title>
 </head>
 <body>
-  <form method="post" enctype="multipart/form-data">
-    <input type="file" name="image"><br>
-    <input type="submit">
-  </form>
-  <h2>{{ message }}</h2>
-{% if item_list %}
-  {% for item in item_list %}
-    <h2>{{ item.itemName }}</h2>
-    <img src="{{ item.mediumImageUrls[0]['imageUrl'] }}">
-    <p>説明：{{ item.itemCaption }}</p>
-    <p>価格：{{ item.itemPrice }}円</p>
-    <p>詳細：<a href="{{ item.itemUrl }}" target="_blank">{{ item.itemUrl }}</a></p>
-  {% endfor %}
-{% endif %}
+  <div class="container">
+  <h1 class="display-1">JANコード検索アプリ</h1>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="image" class="form-control-file"><br>
+      <input type="submit" class="btn btn-outline-dark">
+    </form>
+    <h2 class="display-4">{{ message }}</h2>
+{#    <div class="card-columns">#}
+      {% if item_list %}
+        {% for item in item_list %}
+{#          <div class="card p-3">#}
+{#          <img class="card-img-top img-thumbnail" src="{{ item.mediumImageUrls[0]['imageUrl'] }}">#}
+{#           <div class="card-body">#}
+{#             <h4 class="card-title">{{ item.itemName }}</h4>#}
+{#             <p class="card-text">#}
+{#               {{ item.itemCaption }}#}
+{#             </p>#}
+{#             <p class="card-text">#}
+{#               価格：{{ item.itemPrice }}円#}
+{#             </p>#}
+{#             <a href="{{ item.itemUrl }}" class="card-link" target="_blank">{{ item.itemUrl }}</a>#}
+{#           </div>#}
+{#          </div>#}
+        <h2>{{ item.itemName }}</h2>
+        <img src="{{ item.mediumImageUrls[0]['imageUrl'] }}">
+        <p>説明：{{ item.itemCaption }}</p>
+        <p>価格：{{ item.itemPrice }}円</p>
+        <p>詳細：<a href="{{ item.itemUrl }}" target="_blank">{{ item.itemUrl }}</a></p>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>
 </html>
