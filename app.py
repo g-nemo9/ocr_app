@@ -81,7 +81,7 @@ def index():
         # print(response['responses'][0]['fullTextAnnotation']['text'])
         # response_text = process_str(response['responses'][0]['fullTextAnnotation']['text'])
         jans = extract_jan(response['responses'][0]['textAnnotations'][0]['description'])
-        item_list = request_to_rakuten(jans)
+        # item_list = request_to_rakuten(jans)
         item_list2 = request_to_yahoo(jans)
         if item_list or item_list2:
             message = '解析できました！'
