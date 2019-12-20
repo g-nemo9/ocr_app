@@ -11,7 +11,6 @@
         loading.classList.remove("d-none");
     }
   </script>
-
   <title>JANコード検索</title>
 </head>
 <body>
@@ -26,8 +25,9 @@
     <div class="form-group m-5 row justify-content-center">
       <div class="col-md-4">
       <form method="post" enctype="multipart/form-data">
-        <input type="file" name="image" class="form-control-file"><br>
-        <input type="submit" class="btn btn-outline-dark mx-auto d-block" onclick="OnButtonClick();"/>
+        <input type="file" name="image" class="custom-file-input" id="customFile">
+        <label class="custom-file-label" for="customFile" data-browse="参照">ファイル選択...</label>
+        <input type="submit" class="btn btn-outline-dark mx-auto d-block mt-5" onclick="OnButtonClick();"/>
       </form>
         <div class="text-center">
           <div class="spinner-border mt-5 d-none" role="status" id="spinner">
@@ -82,5 +82,12 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+  <script>
+    $('.custom-file-input').on('change',function(){
+      $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+    })
+  </script>
+
 </body>
 </html>
