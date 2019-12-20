@@ -48,7 +48,7 @@ def request_to_rakuten(jans):
             item_list.append(response['Items'][0]['Item'])
         except IndexError:
             pass
-        # time.sleep(1)
+        time.sleep(1)
     return item_list
 
 
@@ -67,7 +67,7 @@ def request_to_yahoo(jans):
     #         item_list.append(item)
     #     except IndexError:
     #         pass
-    #     time.sleep(1)
+        time.sleep(1)
     # item_list = [item for i, item in enumerate(item_list) if i % 2 == 0]
     return item_list
 
@@ -77,27 +77,26 @@ def index():
     if request.method == "POST":
         if not request.files['image'].filename:
             return render_template('index.html', message='エラー！画像を送ってください')
+
         response = request_to_gcp(request.files['image'])
         if not response['responses'][0]:
             return render_template('index.html', message='解析できませんでした...')
+
         jans = extract_jan(response['responses'][0]['textAnnotations'][0]['description'])
         item_list_yahoo = request_to_yahoo(jans)
         if item_list_yahoo:
             return render_template('index.html', item_list_yahoo=item_list_yahoo, message='解析できました！')
+
         else:
             item_list_rakuten = request_to_rakuten(jans)
             if item_list_rakuten:
                 return render_template('index.html', item_list_rakuten=item_list_rakuten, message='解析できました！')
+
         return render_template('index.html', message='解析できませんでした...')
-        # if item_list_yahoo:
-        #     message = '解析できました！'
-        # else:
-        #     message = '解析できませんでした...'
-        # return render_template('index.html', item_list=item_list, item_list2=item_list2, message=message)
     else:
         return render_template('index.html', message='JANコード画像を送ってください')
 
 
 if __name__ == '__main__':
-    app.debug = True
+    # app.debug = True
     app.run()

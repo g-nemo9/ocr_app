@@ -5,15 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-  <script type="text/javascript">
-    function OnButtonClick() {
-        const loading = document.getElementById('spinner');
-        loading.classList.remove("d-none");
+  <style type="text/css">
+    div#screen {
+      background-color: white;
+      opacity: 0.8;
+      z-index: 600;
+      height: 100%;
+      width: 100%;
+      position: fixed;
     }
-  </script>
+  </style>
+
   <title>JANコード検索</title>
 </head>
 <body>
+<div id="screen" class="d-none"></div>
 
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand text-light">JANコード検索アプリ</a>
@@ -27,10 +33,10 @@
       <form method="post" enctype="multipart/form-data">
         <input type="file" name="image" class="custom-file-input" id="customFile">
         <label class="custom-file-label" for="customFile" data-browse="参照">ファイル選択...</label>
-        <input type="submit" class="btn btn-outline-dark mx-auto d-block mt-5" onclick="OnButtonClick();"/>
+        <input type="submit" class="btn btn-outline-dark mx-auto d-block mt-5" onclick="screenLock();"/>
       </form>
         <div class="text-center">
-          <div class="spinner-border mt-5 d-none" role="status" id="spinner">
+          <div class="spinner-border d-none" role="status" id="spinner" style="width: 3rem; height: 3rem;">
             <span class="sr-only">Loading...</span>
           </div>
         </div>
@@ -87,6 +93,17 @@
     $('.custom-file-input').on('change',function(){
       $(this).next('.custom-file-label').html($(this)[0].files[0].name.substring(0, 15)+'...');
     })
+  </script>
+
+  <script type="text/javascript">
+    function screenLock() {
+        let loading = document.getElementById('spinner');
+        loading.style.zIndex = '9999';
+        loading.style.position = 'fixed';
+        loading.classList.remove("d-none");
+        let screen = document.getElementById('screen');
+        screen.classList.remove("d-none");
+    }
   </script>
 
 </body>
