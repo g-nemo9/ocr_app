@@ -48,7 +48,7 @@ def request_to_rakuten(jans):
             item_list.append(response['Items'][0]['Item'])
         except IndexError:
             pass
-        time.sleep(1)
+        # time.sleep(1)
     return item_list
 
 
@@ -62,6 +62,7 @@ def request_to_yahoo(jans):
             pass
         else:
             item_list.append(item)
+            # time.sleep(1)
     #     try:
     #         item_list.append(item)
     #     except IndexError:
@@ -80,13 +81,19 @@ def index():
         if not response['responses'][0]:
             return render_template('index.html', message='解析できませんでした...')
         jans = extract_jan(response['responses'][0]['textAnnotations'][0]['description'])
-        item_list = request_to_rakuten(jans)
-        item_list2 = request_to_yahoo(jans)
-        if item_list or item_list2:
-            message = '解析できました！'
+        item_list_yahoo = request_to_yahoo(jans)
+        if item_list_yahoo:
+            return render_template('index.html', item_list_yahoo=item_list_yahoo, message='解析できました！')
         else:
-            message = '解析できませんでした...'
-        return render_template('index.html', item_list=item_list, item_list2=item_list2, message=message)
+            item_list_rakuten = request_to_rakuten(jans)
+            if item_list_rakuten:
+                return render_template('index.html', item_list_rakuten=item_list_rakuten, message='解析できました！')
+        return render_template('index.html', message='解析できませんでした...')
+        # if item_list_yahoo:
+        #     message = '解析できました！'
+        # else:
+        #     message = '解析できませんでした...'
+        # return render_template('index.html', item_list=item_list, item_list2=item_list2, message=message)
     else:
         return render_template('index.html', message='JANコード画像を送ってください')
 
