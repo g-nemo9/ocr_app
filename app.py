@@ -6,7 +6,7 @@ import base64
 import json
 import re
 import time
-import pprint
+# import pprint
 
 dotenv.load_dotenv()
 
@@ -21,7 +21,6 @@ def request_to_gcp(image):
         },
         'features': [{
             'type': 'TEXT_DETECTION',
-            # 'maxResults': 5
             'maxResults': 1
         }]
     }]
@@ -55,7 +54,6 @@ def request_to_rakuten(jans):
         response = requests.get(os.environ.get("RAKUTEN_ENDPOINT"), params=payload).json()
         if len(response['Items']) > 0:
             item = response['Items'][0]['Item']
-            print(item['itemName'])
             item_list.append(item)
             time.sleep(1)
     # print(item_list)

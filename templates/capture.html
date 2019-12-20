@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+  <script type="text/javascript">
+    function OnButtonClick() {
+        const loading = document.getElementById('spinner');
+        loading.classList.remove("d-none");
+    }
+  </script>
+
   <title>JANコード検索</title>
 </head>
 <body>
@@ -15,8 +23,13 @@
       <div class="col-md-4">
       <form method="post" enctype="multipart/form-data">
         <input type="file" name="image" class="form-control-file"><br>
-        <input type="submit" class="btn btn-outline-dark mx-auto d-block">
+        <input type="submit" class="btn btn-outline-dark mx-auto d-block" onclick="OnButtonClick();"/>
       </form>
+        <div class="text-center">
+          <div class="spinner-border mt-5 d-none" role="status" id="spinner">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
       </div>
     </div>
     <h2 class="text-center">{{ message }}</h2>
