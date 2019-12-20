@@ -85,7 +85,7 @@
 
   <script>
     $('.custom-file-input').on('change',function(){
-      $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+      $(this).next('.custom-file-label').html($(this)[0].files[0].name.substring(0, 15)+'...');
     })
   </script>
 
