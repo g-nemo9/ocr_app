@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,9 +15,11 @@
   <title>JANコード検索</title>
 </head>
 <body>
+
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand text-light">JANコード検索アプリ</a>
   </nav>
+
   <div class="container">
     <div class="form-group m-5 row justify-content-center">
       <div class="col-md-4">
@@ -32,57 +34,58 @@
         </div>
       </div>
     </div>
+
     <h2 class="text-center">{{ message }}</h2>
-{#    <div class="card-columns">#}
-      {% if item_list %}
-        <h3 class="text-center">楽天市場から</h3>
-        {% for item in item_list %}
-          <div class="card m-3">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-               <img class="img-fluid img-thumbnail mx-auto d-block" width=50% src="{{ item.mediumImageUrls[0]['imageUrl'] }}">
-              </div>
-              <div class="col-md-8">
-               <div class="card-body">
-                 <h4 class="card-title">{{ item.itemName }}</h4>
-                 <p class="card-text">
-                   {{ item.itemCaption[:140] }}...
-                 </p>
-                 <p class="card-text">
-                   価格：{{ item.itemPrice }}円
-                 </p>
-                 <a href="{{ item.itemUrl }}" class="card-link" target="_blank">{{ item.itemUrl }}</a>
+    {% if item_list %}
+      <h3 class="text-center">楽天市場から</h3>
+      {% for item in item_list %}
+        <div class="card m-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+             <img class="img-fluid img-thumbnail mx-auto d-block" width=50% src="{{ item.mediumImageUrls[0]['imageUrl'] }}">
+            </div>
+            <div class="col-md-8">
+             <div class="card-body">
+               <h4 class="card-title">{{ item.itemName }}</h4>
+               <p class="card-text">
+                 {{ item.itemCaption[:140] }}...
+               </p>
+               <p class="card-text">
+                 価格：{{ item.itemPrice }}円
+               </p>
+               <a href="{{ item.itemUrl }}" class="card-link" target="_blank">{{ item.itemUrl }}</a>
+             </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if item_list2 %}
+      <h3 class="text-center">ヤフーショッピングから</h3>
+      {% for item2 in item_list2 %}
+        <div class="card m-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+             <img class="img-fluid mx-auto d-block" width=60% src="{{ item2.Image.Medium }}">
+            </div>
+            <div class="col-md-8">
+             <div class="card-body">
+               <h4 class="card-title">{{ item2.Name }}</h4>
+               <p class="card-text">
+                 {{ item2.Description }}
+               </p>
+               <p class="card-text">
+                 価格：{{ item2.Price._value }}円
+               </p>
+               <a href="{{ item2.Url }}" class="card-link" target="_blank">{{ item2.Url }}</a>
                </div>
-              </div>
             </div>
           </div>
-        {% endfor %}
-      {% endif %}
-      {% if item_list2 %}
-        <h3 class="text-center">ヤフーショッピングから</h3>
-        {% for item2 in item_list2[0::2] %}
-          <div class="card m-3">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-               <img class="img-fluid mx-auto d-block" width=60% src="{{ item2.Image.Medium }}">
-              </div>
-              <div class="col-md-8">
-               <div class="card-body">
-                 <h4 class="card-title">{{ item2.Name }}</h4>
-                 <p class="card-text">
-                   {{ item2.Description }}
-                 </p>
-                 <p class="card-text">
-                   価格：{{ item2.Price._value }}円
-                 </p>
-                 <a href="{{ item2.Url }}" class="card-link" target="_blank">{{ item2.Url }}</a>
-                 </div>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      {% endif %}
-    </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>

@@ -25,25 +25,17 @@ def request_to_gcp(image):
         }]
     }]
     response = requests.post(os.environ.get("GOOGLE_ENDPOINT"),
-                             data=json.dumps({
-                                 'requests': img_requests
-                             }).encode(),   # .encode()
+                             data=json.dumps({'requests': img_requests}).encode(),
                              params={'key': os.environ.get("GOOGLE_API_KEY")},
                              headers={'Content-Type': 'application/json'}).json()
-    # print(response['responses'][0]['fullTextAnnotation']['text'])
     return response
 
 
 def extract_jan(response_text):
-    # digested_text = response_text.replace('\"', '').replace(' ', '').replace('\n', '')
-    # jans = re.findall('\d{13}', digested_text)
-    jans = re.findall('\d{13}', response_text)
-    # print(jans)
+    jans = re.findall('[0-9]{13}', response_text)
     if not jans:
-        """バーコードの長いところがlに認識されることがあるため"""
         digested_text = response_text.replace('\"', '').replace(' ', '').replace('l', '')
-        jans = re.findall('\d{13}', digested_text)
-        # print(jans)
+        jans = re.findall('[0-9]{13}', digested_text)
     return jans
 
 
@@ -52,11 +44,11 @@ def request_to_rakuten(jans):
     for jan in jans:
         payload = {'applicationId': os.environ.get("RAKUTEN_APPLICATION_ID"), 'keyword': jan, 'hits': 1}
         response = requests.get(os.environ.get("RAKUTEN_ENDPOINT"), params=payload).json()
-        if len(response['Items']) > 0:
-            item = response['Items'][0]['Item']
-            item_list.append(item)
-            time.sleep(1)
-    # print(item_list)
+        try:
+            item_list.append(response['Items'][0]['Item'])
+        except IndexError:
+            pass
+        time.sleep(1)
     return item_list
 
 
@@ -66,18 +58,25 @@ def request_to_yahoo(jans):
         payload = {'appid': os.environ.get("YAHOO_CLIENT_ID"), 'jan': jan, 'hits': 1}
         response = requests.get(os.environ.get("YAHOO_ENDPOINT"), params=payload).json()
         item = response['ResultSet']['0']['Result']['0']
-        if item != {'_attributes': {'index': '0'}}:
+        if item == {'_attributes': {'index': '0'}}:
+            pass
+        else:
             item_list.append(item)
-        time.sleep(1)
+    #     try:
+    #         item_list.append(item)
+    #     except IndexError:
+    #         pass
+    #     time.sleep(1)
+    # item_list = [item for i, item in enumerate(item_list) if i % 2 == 0]
     return item_list
 
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
+        if not request.files['image'].filename:
+            return render_template('index.html', message='エラー！ファイルを選択してください')
         response = request_to_gcp(request.files['image'])
-        # print(response['responses'][0]['fullTextAnnotation']['text'])
-        # response_text = process_str(response['responses'][0]['fullTextAnnotation']['text'])
         jans = extract_jan(response['responses'][0]['textAnnotations'][0]['description'])
         item_list = request_to_rakuten(jans)
         item_list2 = request_to_yahoo(jans)
@@ -85,11 +84,11 @@ def index():
             message = '解析できました！'
         else:
             message = '解析できませんでした...'
-        return render_template('capture.html', item_list=item_list, item_list2=item_list2, message=message)
+        return render_template('index.html', item_list=item_list, item_list2=item_list2, message=message)
     else:
-        return render_template('capture.html')
+        return render_template('index.html')
 
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     app.run()
