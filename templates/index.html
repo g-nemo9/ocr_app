@@ -21,6 +21,8 @@
   </nav>
 
   <div class="container">
+    <h2 class="text-center mt-5">{{ message }}</h2>
+
     <div class="form-group m-5 row justify-content-center">
       <div class="col-md-4">
       <form method="post" enctype="multipart/form-data">
@@ -35,7 +37,6 @@
       </div>
     </div>
 
-    <h2 class="text-center">{{ message }}</h2>
     {% if item_list %}
       <h3 class="text-center">楽天市場から</h3>
       {% for item in item_list %}
@@ -47,12 +48,8 @@
             <div class="col-md-8">
              <div class="card-body">
                <h4 class="card-title">{{ item.itemName }}</h4>
-               <p class="card-text">
-                 {{ item.itemCaption[:140] }}...
-               </p>
-               <p class="card-text">
-                 価格：{{ item.itemPrice }}円
-               </p>
+               <p class="card-text">{{ item.itemCaption[:140] }}...</p>
+               <p class="card-text">価格：{{ item.itemPrice }}円</p>
                <a href="{{ item.itemUrl }}" class="card-link" target="_blank">{{ item.itemUrl }}</a>
              </div>
             </div>
@@ -72,12 +69,8 @@
             <div class="col-md-8">
              <div class="card-body">
                <h4 class="card-title">{{ item2.Name }}</h4>
-               <p class="card-text">
-                 {{ item2.Description }}
-               </p>
-               <p class="card-text">
-                 価格：{{ item2.Price._value }}円
-               </p>
+               <p class="card-text">{{ item2.Description[:140] }}...</p>
+               <p class="card-text">価格：{{ item2.Price._value }}円</p>
                <a href="{{ item2.Url }}" class="card-link" target="_blank">{{ item2.Url }}</a>
                </div>
             </div>

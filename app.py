@@ -75,8 +75,10 @@ def request_to_yahoo(jans):
 def index():
     if request.method == "POST":
         if not request.files['image'].filename:
-            return render_template('index.html', message='エラー！ファイルを選択してください')
+            return render_template('index.html', message='エラー！画像を送ってください')
         response = request_to_gcp(request.files['image'])
+        if not response['responses'][0]:
+            return render_template('index.html', message='解析できませんでした...')
         jans = extract_jan(response['responses'][0]['textAnnotations'][0]['description'])
         item_list = request_to_rakuten(jans)
         item_list2 = request_to_yahoo(jans)
@@ -86,7 +88,7 @@ def index():
             message = '解析できませんでした...'
         return render_template('index.html', item_list=item_list, item_list2=item_list2, message=message)
     else:
-        return render_template('index.html')
+        return render_template('index.html', message='JANコード画像を送ってください')
 
 
 if __name__ == '__main__':
